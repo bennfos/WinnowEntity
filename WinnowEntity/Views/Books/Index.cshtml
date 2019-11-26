@@ -1,0 +1,43 @@
+﻿@model IEnumerable<WinnowEntity.Models.Book>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+               <div class="bookCard">
+                 <a asp-controller="Pages" asp-action="Index" asp-route-id="@item.Id">
+                        <div class="bookCard__title">
+                            <h2>
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </h2>
+                        </div>
+                        <div class="bookCard__description">
+                            <p>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            </td>
+            
+           
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
