@@ -22,7 +22,8 @@ namespace WinnowEntity.Models
 
         [Required]
         [Display(Name = "Creation Date")]
-        public DateTime CreationDate { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime CreationDate { get; set; } 
 
         [Required]
         public bool StartsBlank { get; set; }

@@ -4,6 +4,15 @@
     ViewData["Title"] = "Index";
 }
 
+@{ 
+    //create variable for pageDayId 
+    var today = DateTime.Today.ToString("D");
+    var currentMonth = today.Split(" ")[1].ToLower();
+    var currentDay = today.Split(" ")[2].Remove(today.Split(" ")[2].Length - 1);  
+    var currentMonthDay = currentMonth + "-" + currentDay;
+}
+
+
 <h1>Index</h1>
 
 <p>
@@ -16,7 +25,7 @@
         <tr>
             <td>
                <div class="bookCard">
-                 <a asp-controller="Pages" asp-action="Index" asp-route-id="@item.Id">
+                 <a asp-controller="Pages" asp-action="PageDay"  asp-route-id="@item.Id" asp-route-page="@currentMonthDay">
                         <div class="bookCard__title">
                             <h2>
                                 @Html.DisplayFor(modelItem => item.Title)
@@ -27,8 +36,8 @@
                                 @Html.DisplayFor(modelItem => item.Description)
                             </p>
                         </div>
-                    </a>
-                </div>
+                 </a>
+               </div>
             </td>
             
            
@@ -41,3 +50,4 @@
 }
     </tbody>
 </table>
+

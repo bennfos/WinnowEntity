@@ -17,7 +17,7 @@ namespace WinnowEntity.Models
         public string QuoteAuthor { get; set; }
 
         [Required]
-        public DateTime CreationDate { get; set;}
+        public DateTime CreationDate { get; set; }
 
         [Required]
         public int PageId { get; set; }

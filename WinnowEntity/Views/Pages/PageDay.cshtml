@@ -1,0 +1,41 @@
+﻿@model WinnowEntity.Models.Page
+
+@{
+    ViewData["Title"] = "PageDay";
+    var monthDay = $"{Model.Month} {Model.Day}";
+    var thought = Model.Thought;
+
+}
+
+<h1>@monthDay</h1>
+
+<div>
+    <hr />
+   @{
+       if (Model.Quotes != null) {
+           foreach (var quote in Model.Quotes)
+           {
+                <div>
+                    <h6>
+                        @quote.QuoteText
+                    </h6>
+                    <p>
+                        @quote.QuoteAuthor
+                    </p>
+                </div>
+           }
+
+       }
+    }
+
+
+    <div>
+        @Html.DisplayFor(model => model.Thought)
+    </div>
+    
+    </>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
