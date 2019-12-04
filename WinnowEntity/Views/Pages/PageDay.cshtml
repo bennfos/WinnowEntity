@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "PageDay";
     var monthDay = $"{Model.Month} {Model.Day}";
-    var thought = Model.Thought;
+
 
 }
 
@@ -33,7 +33,7 @@
         @Html.DisplayFor(model => model.Thought)
     </div>
     
-    </>
+    
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |

@@ -35,6 +35,14 @@ namespace WinnowEntity.Controllers
 
         // GET: Pages
 
+        //public async Task<IActionResult> PageDay(int id)
+        //{
+        //    var thisPage = await _context.Pages
+        //       .FirstOrDefaultAsync(p => p.Id == id);
+
+        //    return View(thisPage);
+        //}
+
         public async Task<IActionResult> PageDay([FromRoute] int id, [FromQuery] string Page)
         {
             var monthString = Page.Split("-")[0];
@@ -131,7 +139,7 @@ namespace WinnowEntity.Controllers
                 return NotFound();
             }
 
-            var page = await _context.Pages.FindAsync(id);
+            var page = await _context.Pages.FirstOrDefaultAsync(m => m.Id == id);
             var viewModel = new PageEditViewModel()
             {
                 Page = page,
@@ -152,17 +160,23 @@ namespace WinnowEntity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, PageEditViewModel viewModel)
         {
-            if (id != viewModel.Page.Id)
-            {
-                return NotFound();
-            }
+            //blowing up here
 
+            var page = await _context.Pages.FirstOrDefaultAsync(m => m.Id == id);
+            
+
+            ModelState.Remove("Page.Month");
+            ModelState.Remove("Page.Day");
             if (ModelState.IsValid)
             {
                 try
                 {
+                    viewModel.Page = page;
+                    viewModel.Page.Thought = page.Thought;
+                    viewModel.Quote.PageId = page.Id;
+                    viewModel.Quote.Page = page;
                     viewModel.Quote.CreationDate = DateTime.Now;
-                    viewModel.Page.Quotes.Add(viewModel.Quote);
+                    _context.Add(viewModel.Quote);
                     _context.Update(viewModel.Page);
                     await _context.SaveChangesAsync();
                 }
@@ -177,9 +191,15 @@ namespace WinnowEntity.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(PageDay));
+                return RedirectToAction("PageDay", "Pages", new { Id = viewModel.Page.BookId, page = $"{viewModel.Page.Month}-{viewModel.Page.Day}" });
             }
-           
+
+            if (id != viewModel.Page.Id)
+            {
+                return NotFound();
+            }
+
+
             return View(viewModel);
         }
 
